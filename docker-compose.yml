@@ -1,0 +1,6 @@
+php:
+  build: .
+  ports:
+   - "80:80"
+  volumes:
+   - ./src:/var/www/htdocs
