@@ -3,4 +3,4 @@ php:
   ports:
    - "80:80"
   volumes:
-   - /var/www:/var/www/htdocs
+   - /var/www:/var/www/html
