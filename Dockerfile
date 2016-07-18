@@ -45,17 +45,18 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
 # XDebug
-RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
-    && tar -xzf xdebug-2.2.3.tgz \
-    && cd cd xdebug-2.2.3 \
-    && ./configure --enable-xdebug \
-    && make \
-    && make install \
-RUN php5enmod xdebug
-RUN apt-get install php5-xdebug -y
-RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
-RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
-RUN /etc/init.d/apache2 force-reload
+#RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
+#    && tar -xzf xdebug-2.2.3.tgz \
+#    && cd xdebug-2.2.3 \
+#    && ./configure --enable-xdebug \
+#    && make \
+#    && make install
+#
+#RUN php5enmod xdebug
+#RUN apt-get install php5-xdebug -y
+#RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
+#RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
+#RUN /etc/init.d/apache2 force-reload
 
 
 # To SSH
