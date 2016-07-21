@@ -1,9 +1,7 @@
 php:
   build: .
-  environment:
-    - VIRTUAL_HOST=dev.local.com
   ports:
    - "127.0.0.1:80:80"
    - "127.0.0.1:22:22"
   volumes:
-   - /var/www/html:/var/www/htdocs
+   - /var/www/html:/var/www/html
