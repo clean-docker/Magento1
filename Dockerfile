@@ -48,17 +48,18 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN usermod -u 1000 www-data
 
 # XDebug
-#RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
-#    && tar -xzf xdebug-2.2.3.tgz \
-#    && cd xdebug-2.2.3 \
-#    && ./configure --enable-xdebug \
-#    && make \
-#    && make install
-#
-#RUN apt-get install php5-xdebug -y
-#RUN php5enmod xdebug
-#RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
-#RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
+RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
+    && tar -xzf xdebug-2.2.3.tgz \
+    && cd xdebug-2.2.3 \
+    && phpize \
+    && ./configure --enable-xdebug \
+    && make \
+    && make install
+
+RUN apt-get install php5-xdebug -y
+RUN php5enmod xdebug
+RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
+RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
 RUN /etc/init.d/apache2 restart
 
 
