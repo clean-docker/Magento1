@@ -2,8 +2,8 @@ FROM php:5.5-apache
 
 MAINTAINER Rafael Corrêa Gomes <rafaelcg_stz@hotmail.com>
 
-WORKDIR /var/www/htdocs
-COPY ./src /var/www/htdocs
+WORKDIR /var/www/html
+COPY ./src /var/www/html
 EXPOSE 80 22
 
 RUN requirements="libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
@@ -21,7 +21,8 @@ RUN a2enmod rewrite
 RUN sed -i -e 's/\/var\/www\/html/\/var\/www\/htdocs/' /etc/apache2/apache2.conf
 
 RUN chown -R www-data:www-data /var/www/htdocs
-RUN apt-get update && apt-get install -y mysql-client-5.5 libxml2-dev wget zip vim
+RUN apt-get update && apt-get install -y  apt-utils mysql-client-5.5 libxml2-dev git wget zip vim \
+    openssh-server openssh-client
 RUN docker-php-ext-install soap
 
 # DevAlias
@@ -34,7 +35,7 @@ RUN mkdir ~/.dev-alias \
     && echo "source ~/.dev-alias/alias.sh" >> ~/.bashrc
 
 # SSH
-RUN apt-get update && apt-get install -y openssh-server openssh-client
+#RUN apt-get update && apt-get install -y openssh-server openssh-client
 RUN mkdir /var/run/sshd
 RUN echo 'root:root' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -44,19 +45,21 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
+RUN usermod -u 1000 www-data
+
 # XDebug
-#RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
-#    && tar -xzf xdebug-2.2.3.tgz \
-#    && cd xdebug-2.2.3 \
-#    && ./configure --enable-xdebug \
-#    && make \
-#    && make install
-#
-#RUN php5enmod xdebug
-#RUN apt-get install php5-xdebug -y
-#RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
-#RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
-#RUN /etc/init.d/apache2 force-reload
+RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
+    && tar -xzf xdebug-2.2.3.tgz \
+    && cd xdebug-2.2.3 \
+    && ./configure --enable-xdebug \
+    && make \
+    && make install
+
+RUN apt-get install php5-xdebug -y
+RUN php5enmod xdebug
+RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
+RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
+RUN /etc/init.d/apache2 restart
 
 
 # To SSH
