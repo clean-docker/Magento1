@@ -44,7 +44,9 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN usermod -u 1000 www-data
 
 # XDebug
-RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
+COPY ./xdebug/xdebug-2.2.3.tgz /tmp
+#RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
+RUN cd /tmp \
     && tar -xzf xdebug-2.2.3.tgz \
     && cd xdebug-2.2.3 \
     && phpize \
