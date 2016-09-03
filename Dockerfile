@@ -2,10 +2,6 @@ FROM php:5.5-apache
 
 MAINTAINER Rafael Corrêa Gomes <rafaelcg_stz@hotmail.com>
 
-WORKDIR /var/www/html
-COPY ./src /var/www/html
-EXPOSE 80 22
-
 RUN requirements="libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
     && apt-get update && apt-get install -y $requirements && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo_mysql \
@@ -20,7 +16,7 @@ RUN usermod -u 1000 www-data
 RUN a2enmod rewrite
 RUN sed -i -e 's/\/var\/www\/html/\/var\/www\/htdocs/' /etc/apache2/apache2.conf
 
-RUN chown -R www-data:www-data /var/www/htdocs
+RUN chown -R www-data:www-data /var/www/html
 RUN apt-get update && apt-get install -y  apt-utils mysql-client-5.5 libxml2-dev git wget zip vim \
     openssh-server openssh-client
 RUN docker-php-ext-install soap
@@ -51,6 +47,7 @@ RUN usermod -u 1000 www-data
 RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
     && tar -xzf xdebug-2.2.3.tgz \
     && cd xdebug-2.2.3 \
+    && phpize \
     && ./configure --enable-xdebug \
     && make \
     && make install
@@ -64,5 +61,9 @@ RUN /etc/init.d/apache2 restart
 
 # To SSH
 # RUN /usr/sbin/sshd
+VOLUME ["/var/www/html"]
+WORKDIR /var/www/html
+COPY ./src /var/www/html
+EXPOSE 80 22
 
 CMD ["apache2-foreground", "-DFOREGROUND"]
