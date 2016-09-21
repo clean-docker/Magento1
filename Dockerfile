@@ -11,8 +11,6 @@ RUN requirements="libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
-    && docker-php-ext-install php5-gd \
-    && docker-php-ext-install php5-mysql \    
     && docker-php-ext-install mcrypt \
     && docker-php-ext-install mbstring \
     && requirementsToRemove="libpng12-dev libmcrypt-dev libcurl3-dev libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
@@ -23,7 +21,7 @@ RUN a2enmod rewrite
 RUN sed -i -e 's/\/var\/www\/html/\/var\/www\/htdocs/' /etc/apache2/apache2.conf
 
 RUN chown -R www-data:www-data /var/www/html
-RUN apt-get update && apt-get install -y  apt-utils mysql-client-5.5 libxml2-dev git wget zip vim \
+RUN apt-get update && apt-get install -y  apt-utils php5-gd php5-mysql mysql-client-5.5 libxml2-dev git wget zip vim \
     openssh-server openssh-client
 RUN docker-php-ext-install soap
 
