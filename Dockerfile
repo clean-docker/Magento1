@@ -26,6 +26,13 @@ RUN apt-get update && apt-get install -y  apt-utils php5-gd php5-mysql mysql-cli
     openssh-server openssh-client
 RUN docker-php-ext-install soap
 
+# Install oAuth
+RUN apt-get update \
+	&& apt-get install gcc make autoconf libc-dev pkg-config -y \
+	&& apt-get install php-pear -y \
+	&& pecl install oauth-1.2.3 \
+	&& echo "extension=oauth.so" > /usr/local/etc/php/conf.d/docker-php-ext-oauth.ini
+
 # DevAlias
 RUN mkdir ~/.dev-alias \
     && wget https://github.com/rafaelstz/dev-alias/archive/master.zip -P ~/.dev-alias \
