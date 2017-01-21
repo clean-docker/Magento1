@@ -1,7 +1,23 @@
-php:
-  build: .
-  ports:
-   - "127.0.0.1:80:80"
-   - "127.0.0.1:22:22"
-  volumes:
-   - /var/www/html:/var/www/html
+
+
+version: '2'
+services:
+
+  php:
+    build: .
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+    - "127.0.0.1:80:80"
+    - "127.0.0.1:22:22"
+    volumes:
+    - /var/www/html:/var/www/html
+
+  db:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
