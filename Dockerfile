@@ -68,8 +68,8 @@ RUN cd /tmp \
 
 RUN apt-get install php5-xdebug -y
 RUN php5enmod xdebug
-RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
-RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
+RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini \
+    && echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
 RUN /etc/init.d/apache2 restart
 
 
