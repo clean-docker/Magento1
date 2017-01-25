@@ -56,21 +56,21 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN usermod -u 1000 www-data
 
 # XDebug
-COPY ./xdebug/xdebug-2.2.3.tgz /tmp
-#RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
-RUN cd /tmp \
-    && tar -xzf xdebug-2.2.3.tgz \
-    && cd xdebug-2.2.3 \
-    && phpize \
-    && ./configure --enable-xdebug \
-    && make \
-    && make install
+# COPY ./xdebug/xdebug-2.2.3.tgz /tmp
+# RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
+# RUN cd /tmp \
+#   && tar -xzf xdebug-2.2.3.tgz \
+#   && cd xdebug-2.2.3 \
+#   && phpize \
+#   && ./configure --enable-xdebug \
+#   && make \
+#   && make instal
 
-RUN apt-get install php5-xdebug -y
-RUN php5enmod xdebug
-RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini \
-    && echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
-RUN /etc/init.d/apache2 restart
+# RUN apt-get install php5-xdebug -y
+# RUN php5enmod xdebug
+# RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini \
+# RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
+# RUN /etc/init.d/apache2 restart
 
 
 # To SSH
