@@ -4,7 +4,8 @@ version: '2'
 services:
 
   php:
-    image: rafaelcgstz/php-apache
+    build: .
+    # image: rafaelcgstz/php-apache
     depends_on:
       - db
     links:
