@@ -2,10 +2,6 @@ FROM php:5.5-apache
 
 MAINTAINER Rafael Corrêa Gomes <rafaelcg_stz@hotmail.com>
 
-WORKDIR /var/www/html
-COPY ./src /var/www/html
-EXPOSE 80 22
-
 RUN requirements="libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
     && apt-get update && apt-get install -y $requirements && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo \
