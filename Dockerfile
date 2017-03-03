@@ -2,10 +2,6 @@ FROM php:5.5-apache
 
 MAINTAINER Rafael Corrêa Gomes <rafaelcg_stz@hotmail.com>
 
-WORKDIR /var/www/html
-COPY ./src /var/www/html
-EXPOSE 80 22
-
 RUN requirements="libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
     && apt-get update && apt-get install -y $requirements && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo \
@@ -25,6 +21,13 @@ RUN chown -R www-data:www-data /var/www/html
 RUN apt-get update && apt-get install -y  apt-utils php5-gd php5-mysql mysql-client-5.5 libxml2-dev git wget zip vim \
     openssh-server openssh-client
 RUN docker-php-ext-install soap
+
+# Install oAuth
+RUN apt-get update \
+	&& apt-get install gcc make autoconf libc-dev pkg-config -y \
+	&& apt-get install php-pear -y \
+	&& pecl install oauth-1.2.3 \
+	&& echo "extension=oauth.so" > /usr/local/etc/php/conf.d/docker-php-ext-oauth.ini
 
 # DevAlias
 RUN mkdir ~/.dev-alias \
