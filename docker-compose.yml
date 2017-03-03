@@ -1,7 +1,27 @@
-php:
-  build: .
-  ports:
-   - "127.0.0.1:80:80"
-   - "127.0.0.1:22:22"
-  volumes:
-   - /var/www/html:/var/www/html
+version: '2'
+services:
+
+  apache:
+    # image: rafaelcgstz/php-apache
+    build: .
+    ports:
+        - "80:80"
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - /var/www/html:/var/www/html
+      - ~/.composer:/root/.composer
+      - ~/.npm:/root/.npm
+      - ~/.nvm:/root/.nvm
+
+  db:
+    image: mariadb
+    ports:
+      - "3300:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=magento
+      - MYSQL_USER=magento
+      - MYSQL_PASSWORD=magento

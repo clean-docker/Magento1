@@ -51,23 +51,27 @@ RUN usermod -u 1000 www-data
 # XDebug
 COPY ./xdebug/xdebug-2.2.3.tgz /tmp
 #RUN wget http://xdebug.org/files/xdebug-2.2.3.tgz \
-RUN cd /tmp \
-    && tar -xzf xdebug-2.2.3.tgz \
-    && cd xdebug-2.2.3 \
-    && phpize \
-    && ./configure --enable-xdebug \
-    && make \
-    && make install
+#RUN cd /tmp \
+#    && tar -xzf xdebug-2.2.3.tgz \
+#    && cd xdebug-2.2.3 \
+#    && phpize \
+#    && ./configure --enable-xdebug \
+#    && make \
+#    && make install
 
-RUN apt-get install php5-xdebug -y
-RUN php5enmod xdebug
-RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
-RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
+#RUN apt-get install php5-xdebug -y
+#RUN php5enmod xdebug
+#RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
+#RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
 RUN /etc/init.d/apache2 restart
 
+# Install Composer
+
+RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
 
 # To SSH
 # RUN /usr/sbin/sshd
+ADD conf/php.ini /usr/local/etc/php/conf.d/999-rafaelcgstz.ini
 VOLUME ["/var/www/html"]
 WORKDIR /var/www/html
 COPY ./src /var/www/html
