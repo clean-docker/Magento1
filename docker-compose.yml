@@ -2,8 +2,8 @@ version: '2'
 services:
 
   apache:
-    # image: rafaelcgstz/php-apache
-    build: .
+    image: rafaelcgstz/php-apache
+    # build: .
     ports:
         - "80:80"
     depends_on:
