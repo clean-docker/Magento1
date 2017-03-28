@@ -3,7 +3,6 @@ services:
 
   apache:
     image: rafaelcgstz/php-apache
-    # build: .
     ports:
         - "80:80"
     depends_on:
