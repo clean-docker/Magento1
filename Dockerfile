@@ -2,6 +2,8 @@ FROM php:5.5-apache
 
 MAINTAINER Rafael Corrêa Gomes <rafaelcg_stz@hotmail.com>
 
+ENV XDEBUG_PORT 9000
+
 RUN requirements="libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
     && apt-get update && apt-get install -y $requirements && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install pdo \
@@ -66,6 +68,11 @@ COPY ./xdebug/xdebug-2.2.3.tgz /tmp
 #RUN php5enmod xdebug
 #RUN echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/php.ini
 #RUN echo "xdebug.remote_enable = 1" >> /usr/local/etc/php/conf.d/php.ini
+# Install XDebug
+
+RUN yes | pecl install xdebug && \
+	echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini
+
 RUN /etc/init.d/apache2 restart
 
 # Install Composer
@@ -74,10 +81,10 @@ RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # To SSH
 # RUN /usr/sbin/sshd
-ADD conf/php.ini /usr/local/etc/php/conf.d/999-rafaelcgstz.ini
+ADD conf/php.ini /usr/local/etc/php/php.ini
+ADD conf/custom-xdebug.ini /usr/local/etc/php/conf.d/custom-xdebug.ini
 VOLUME ["/var/www/html"]
 WORKDIR /var/www/html
-COPY ./src /var/www/html
-EXPOSE 80 22
+COPY ./magento /var/www/html
 
 CMD ["apache2-foreground", "-DFOREGROUND"]
