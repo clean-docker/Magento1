@@ -3,7 +3,10 @@ services:
 
   apache:
     image: rafaelcgstz/php-apache
+<<<<<<< HEAD
     # build: .
+=======
+>>>>>>> 37ddb4ff63cfce0b3dbe2b2ea9a8c0898b89b5e0
     ports:
         - "80:80" # web
         - "9001:9000" # xdebug
