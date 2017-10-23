@@ -1,35 +1,65 @@
 version: '2'
 services:
-
   apache:
     image: rafaelcgstz/php-apache
     # build: .
     ports:
-        - "80:80" # web
-        - "9001:9000" # xdebug
-        - "2222:22" # ssh
-        - "35729:35729" # live reload
+      - "80:80" # web
+      - "9001:9000" # xdebug
+      # - "35729:35729" # live reload
+    volumes:
+      - ./src:/var/www/html
+      - ~/.composer:/var/www/.composer
+      - ~/.npm:/var/www/.npm
+      # - ~/.nvm:/var/www/.nvm
+    environment:
+      XDEBUG_CONFIG: "remote_host=dev.local"
+      PHP_IDE_CONFIG: "serverName=Docker"
     depends_on:
       - db
     links:
       - db
-    volumes:
-      - ./magento:/var/www/html
-      - ~/.composer:/root/.composer
-      - ~/.npm:/root/.npm
-      - ~/.nvm:/root/.nvm
-    environment:
-      XDEBUG_CONFIG: "remote_host=dev.local"
-      PHP_IDE_CONFIG: "serverName=Docker"
+    networks:
+      - <project_name>-network
 
   db:
     image: mariadb
     ports:
-      - "3300:3306"
+     - 3300:3306
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=magento
       - MYSQL_USER=magento
       - MYSQL_PASSWORD=magento
     volumes:
-        - /var/lib/mysql # database files
+      - dbdata:/var/lib/mysql
+    networks:
+      - <project_name>-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+     - PMA_HOST=db
+     - PMA_USER=root
+     - PMA_PASSWORD=root
+     - MYSQL_ROOT_PASSWORD=root
+    ports:
+     - 8080:80
+    networks:
+      - <project_name>-network  
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - <project_name>-network
+
+networks:
+  <project_name>-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

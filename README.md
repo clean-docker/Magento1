@@ -2,48 +2,69 @@
 
 #  Magento 1 Docker to Development
 
-### Apache 2 + PHP 5.5 + MariaDB + Magerun + DevAlias
+### Apache 2 + PHP 5.5 + MariaDB + Magerun + OPCache
 
 [![Build Status](https://travis-ci.org/clean-docker/PHP-Apache.svg?branch=master)](https://travis-ci.org/clean-docker/PHP-Apache)
 [![Build Status](https://images.microbadger.com/badges/image/rafaelcgstz/php-apache.svg)](https://microbadger.com/images/rafaelcgstz/php-apache)
 
 This cluster ready docker-compose infrastructure.
 
-#### Copy and run
+### MacOS / Linux Requirements
+
+**MacOS (Docker, Docker-compose and Docker-sync)**
 
 ```
-git clone https://github.com/clean-docker/PHP-Apache.git m1-docker &&
-cd m1-docker &&
-docker-compose up -d ;
-docker ps
+  brew tap caskroom/cask
+  brew cask install docker
+  brew install docker-compose
+  sudo gem install docker-sync
 ```
 
-#### Projects folder
+**Linux (Docker, Docker-compose)**
 
-There is a folder in this project calling **./magento**, this folder is the folder **/var/www/html/** inside your container, is the folder that you will work on.
+Use this [official Docker tutorial](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/).
 
-#### Access the container Docker
+### How to use
 
-To access in you browser you can use http://localhost ( I recommend change your /etc/hosts ).
-
-```
-docker exec -ti YOUR_APACHE_CONTAINER_NAME bash
-```
-
-#### Access the MySQL
-
-In your terminal out of the container run this command.
+Execute in your terminal, change the *MYMAGENTO* to use the name of your project:
 
 ```
-mysql -u root -proot -h 0.0.0.0 -P 3300
+curl -s https://raw.githubusercontent.com/clean-docker/PHP-Apache/master/init | bash -s MYMAGENTO clone
 ```
 
-To know what is the IP to use in the Magento installation (Database Server Host), you can use this command out the container or just use **db** instead of the IP.
+If you want install the Magento, use like that:
 
 ```
-docker inspect YOUR_DB_CONTAINER_NAME | grep IPAddress
+cd MYMAGENTO
+./shell
+rm index.php
+install-magento
 ```
 
-#### License
+You can specify the version that want install (e.g. `install-magento 1.9.3.4`).
+
+### Panels
+
+Enjoy your new panels!
+
+**Web server:** http://localhost/
+
+**PHPMyAdmin:** http://localhost:8080
+
+**Local emails:** http://localhost:8025
+
+### Features commands
+
+| Commands  | Description  | Options & Examples |
+|---|---|---|
+| `./init`  | If you didn't use the CURL setup command above, please use this command changing the name of the project.  | `./init MYMAGENTO2` |
+| `./start`  | If you continuing not using the CURL you can start your container manually  | |
+| `./stop`  | Stop your project containers  | |
+| `./shell`  | Access your container  | `./shell root` | |
+| `./magento`  | Use the power of the Magento CLI  | |
+| `./n98`  | Use the Magerun commands as you want | |
+| `./xdebug`  |  Enable / Disable the XDebug | |
+
+### License
 
 MIT © 2017 [Rafael Corrêa Gomes](https://github.com/rafaelstz/) and contributors.
