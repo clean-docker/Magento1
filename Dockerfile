@@ -4,7 +4,7 @@ MAINTAINER Rafael Corrêa Gomes <rafaelcgstz@gmail.com>
 
 ENV XDEBUG_PORT 9000
 
-RUN requirements="libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
+RUN requirements="redis-server php5-dev php5-cli php-pear libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
     && apt-get update && apt-get install -y $requirements && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install pdo \
@@ -27,6 +27,11 @@ RUN chmod 777 -R /var/www \
 RUN apt-get update && apt-get install -y  apt-utils php5-gd php5-mysql mysql-client-5.5 libxml2-dev git opcache wget zip vim \
     openssh-server openssh-client
 
+# Install Redis
+RUN pecl install redis \
+  && echo "extension=redis.so" > /etc/php5/mods-available/redis.ini \
+  && php5enmod redis
+
 # Install oAuth
 RUN apt-get update \
 	&& apt-get install gcc make autoconf libc-dev pkg-config -y \
@@ -40,7 +45,7 @@ RUN apt-get update \
 RUN yes | pecl install xdebug && \
 	 echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.iniOLD
 
-# Install Magerun 2
+# Install Magerun
 
 RUN wget https://files.magerun.net/n98-magerun.phar \
     && chmod +x ./n98-magerun.phar \

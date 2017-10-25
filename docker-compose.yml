@@ -46,7 +46,14 @@ services:
     ports:
      - 8080:80
     networks:
-      - <project_name>-network  
+      - <project_name>-network
+
+  redis:
+    image: redis
+    ports:
+     - 6379
+    networks:
+      - <project_name>-network      
 
   mailhog:
     image: mailhog/mailhog
