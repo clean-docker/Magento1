@@ -17,12 +17,12 @@ RUN requirements="redis-server php5-dev php5-cli php-pear libpng12-dev libmcrypt
     && apt-get purge --auto-remove -y $requirementsToRemove
 
 RUN chmod 777 -R /var/www \
-		&& chown -R www-data:1000 /var/www \
+	&& chown -R www-data:1000 /var/www \
   	&& usermod -u 1000 www-data \
   	&& chsh -s /bin/bash www-data\
   	&& a2enmod rewrite \
-		&& a2enmod headers \
-    && sed -i -e 's/\/var\/www\/html/\/var\/www\/htdocs/' /etc/apache2/apache2.conf
+	&& a2enmod headers \
+	&& sed -i -e 's/\/var\/www\/html/\/var\/www\/htdocs/' /etc/apache2/apache2.conf
 
 RUN apt-get update && apt-get install -y  apt-utils php5-gd php5-mysql mysql-client-5.5 libxml2-dev git opcache wget zip vim \
     openssh-server openssh-client
@@ -39,6 +39,12 @@ RUN apt-get update \
 	&& pecl install oauth-1.2.3 \
 	&& echo "extension=oauth.so" > /usr/local/etc/php/conf.d/docker-php-ext-oauth.ini
 
+  # Install Mhsendmail
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install golang-go \
+   && mkdir /opt/go \
+   && export GOPATH=/opt/go \
+   && go get github.com/mailhog/mhsendmail
 
 # Install XDebug
 
@@ -47,9 +53,12 @@ RUN yes | pecl install xdebug && \
 
 # Install Magerun
 
-RUN wget https://files.magerun.net/n98-magerun.phar \
+RUN wget https://files.magerun.net/n98-magerun.phar --no-check-certificate \
     && chmod +x ./n98-magerun.phar \
     && mv ./n98-magerun.phar /usr/local/bin/
+
+# Install Modman
+RUN wget https://raw.githubusercontent.com/colinmollenhour/modman/master/modman -O /usr/local/bin/modma
 
 # SSH
 # RUN apt-get update && apt-get install -y openssh-server openssh-client
