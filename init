@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 if [ "$2" == "clone" ]; then
-  git clone https://github.com/clean-docker/PHP-Apache.git $1 && cd $1;
+  git clone https://github.com/clean-docker/Magento1.git $1 && cd $1;
 fi
 
 sudo chmod u+x ./*
@@ -19,8 +19,10 @@ if [ ! -e src/index.php ]; then
   echo "<?php phpinfo();" > src/index.php;
 fi
 
-if [ ! -e src/app/etc/local.xml ] && [ -d src/app/etc ]; then  
-  cp .docker/users/local.xml.sample src/app/etc/local.xml;
+if [ -d src/app/etc ]; then  
+  if [ ! -e src/app/etc/local.xml ]; then
+    cp .docker/users/local.xml.sample src/app/etc/local.xml;
+  fi
 fi
 
 bash start

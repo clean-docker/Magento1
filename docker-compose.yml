@@ -1,8 +1,8 @@
 version: '2'
 services:
   apache:
-    image: rafaelcgstz/magento1
-    # build: .
+    # image: rafaelcgstz/magento1
+    build: .
     ports:
       - "80:80" # web
       - "9001:9000" # xdebug
