@@ -1,7 +1,7 @@
 version: '2'
 services:
   apache:
-    image: rafaelcgstz/php-apache
+    image: rafaelcgstz/magento1
     # build: .
     ports:
       - "80:80" # web
@@ -13,7 +13,7 @@ services:
       - ~/.npm:/var/www/.npm
       # - ~/.nvm:/var/www/.nvm
     environment:
-      XDEBUG_CONFIG: "remote_host=dev.local"
+      XDEBUG_CONFIG: "remote_host=localhost"
       PHP_IDE_CONFIG: "serverName=Docker"
     depends_on:
       - db
@@ -46,14 +46,7 @@ services:
     ports:
      - 8080:80
     networks:
-      - <project_name>-network
-
-  redis:
-    image: redis
-    ports:
-     - 6379
-    networks:
-      - <project_name>-network      
+      - <project_name>-network    
 
   mailhog:
     image: mailhog/mailhog
