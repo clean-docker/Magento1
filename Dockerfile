@@ -4,17 +4,45 @@ MAINTAINER Rafael Corrêa Gomes <rafaelcgstz@gmail.com>
 
 ENV XDEBUG_PORT 9000
 
-RUN requirements="redis-server php5-dev php5-cli php-pear libpng12-dev libmcrypt-dev libmcrypt4 libcurl3-dev libfreetype6 libjpeg62-turbo libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
-    && apt-get update && apt-get install -y $requirements && rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN apt-get update && apt-get install -y php5-dev \
+    php-pear \
+    libpng12-dev \
+    libmcrypt-dev \
+    libmcrypt4 \
+    libcurl3-dev \
+    libfreetype6 \
+    libjpeg62-turbo \
+    libpng12-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update \
+    && apt-get install -y  apt-utils \
+    php5-gd \
+    php5-mysql \
+    mysql-client-5.5 \
+    libxml2-dev \
+    git \
+    wget \
+    zip \
+    vim
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install pdo \
     pdo_mysql \
     gd \
     mcrypt \
     mbstring \
-    soap \
-    && requirementsToRemove="libpng12-dev libmcrypt-dev libcurl3-dev libpng12-dev libfreetype6-dev libjpeg62-turbo-dev" \
-    && apt-get purge --auto-remove -y $requirementsToRemove
+    soap    
+
+RUN apt-get purge --auto-remove -y \
+    libpng12-dev \
+    libmcrypt-dev \
+    libcurl3-dev \
+    libpng12-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev
 
 RUN chmod 777 -R /var/www \
 	&& chown -R www-data:1000 /var/www \
@@ -22,24 +50,18 @@ RUN chmod 777 -R /var/www \
   	&& chsh -s /bin/bash www-data\
   	&& a2enmod rewrite \
 	&& a2enmod headers \
+    && php5enmod opcache \
 	&& sed -i -e 's/\/var\/www\/html/\/var\/www\/htdocs/' /etc/apache2/apache2.conf
 
-RUN apt-get update && apt-get install -y  apt-utils php5-gd php5-mysql mysql-client-5.5 libxml2-dev git opcache wget zip vim \
-    openssh-server openssh-client
-
-# Install Redis
-RUN pecl install redis \
-  && echo "extension=redis.so" > /etc/php5/mods-available/redis.ini \
-  && php5enmod redis
-
 # Install oAuth
+
 RUN apt-get update \
 	&& apt-get install gcc make autoconf libc-dev pkg-config -y \
 	&& apt-get install php-pear -y \
 	&& pecl install oauth-1.2.3 \
 	&& echo "extension=oauth.so" > /usr/local/etc/php/conf.d/docker-php-ext-oauth.ini
 
-  # Install Mhsendmail
+# Install Mhsendmail
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install golang-go \
    && mkdir /opt/go \
@@ -48,8 +70,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install golang-go \
 
 # Install XDebug
 
-RUN yes | pecl install xdebug && \
-	 echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.iniOLD
+RUN yes | pecl install xdebug \
+    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.iniOLD
 
 # Install Magerun
 
@@ -73,7 +95,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 RUN usermod -u 1000 www-data
 
-RUN /etc/init.d/apache2 restart
+# RUN /etc/init.d/apache2 restart
 
 # Install Composer
 
