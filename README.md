@@ -53,7 +53,7 @@ Enjoy your new panels!
 
 | Commands  | Description  | Options & Examples |
 |---|---|---|
-| `./init`  | If you didn't use the CURL setup command above, please use this command changing the name of the project.  | `./init MYMAGENTO2` |
+| `./init`  | If you didn't use the CURL setup command above, please use this command changing the name of the project.  | `./init MYMAGENTO` |
 | `./start`  | If you continuing not using the CURL you can start your container manually  | |
 | `./stop`  | Stop your project containers  | |
 | `./shell`  | Access your container  | `./shell root` | |
