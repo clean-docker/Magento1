@@ -4,7 +4,8 @@ MAINTAINER Rafael Corrêa Gomes <rafaelcgstz@gmail.com>
 
 ENV XDEBUG_PORT 9000
 
-RUN apt-get update && apt-get install -y php5-dev \
+RUN apt-get update \
+    && apt-get install -y php5-dev \
     php-pear \
     libpng12-dev \
     libmcrypt-dev \
@@ -15,10 +16,7 @@ RUN apt-get update && apt-get install -y php5-dev \
     libpng12-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update \
-    && apt-get install -y  apt-utils \
+    apt-utils \
     php5-gd \
     php5-mysql \
     mysql-client-5.5 \
@@ -26,7 +24,13 @@ RUN apt-get update \
     git \
     wget \
     zip \
-    vim
+    vim \
+    gcc \
+    make \
+    autoconf \
+    libc-dev \
+    pkg-config \
+	php-pear -y
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install pdo \
@@ -34,15 +38,7 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     gd \
     mcrypt \
     mbstring \
-    soap    
-
-RUN apt-get purge --auto-remove -y \
-    libpng12-dev \
-    libmcrypt-dev \
-    libcurl3-dev \
-    libpng12-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev
+    soap
 
 RUN chmod 777 -R /var/www \
 	&& chown -R www-data:1000 /var/www \
@@ -56,8 +52,6 @@ RUN chmod 777 -R /var/www \
 # Install oAuth
 
 RUN apt-get update \
-	&& apt-get install gcc make autoconf libc-dev pkg-config -y \
-	&& apt-get install php-pear -y \
 	&& pecl install oauth-1.2.3 \
 	&& echo "extension=oauth.so" > /usr/local/etc/php/conf.d/docker-php-ext-oauth.ini
 
@@ -90,10 +84,8 @@ RUN wget https://raw.githubusercontent.com/colinmollenhour/modman/master/modman 
 
 # RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
-
-RUN usermod -u 1000 www-data
+# ENV NOTVISIBLE "in users profile"
+# RUN echo "export VISIBLE=now" >> /etc/profile
 
 # RUN /etc/init.d/apache2 restart
 
