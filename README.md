@@ -9,20 +9,20 @@
 
 This cluster ready docker-compose infrastructure.
 
-### MacOS / Linux Requirements
 
-**MacOS (Docker, Docker-compose and Docker-sync)**
+### Requirements
 
-```
-  brew tap caskroom/cask
-  brew cask install docker
-  brew install docker-compose
-  sudo gem install docker-sync
-```
+**MacOS:**
 
-**Linux (Docker, Docker-compose)**
+Install [Docker](https://docs.docker.com/docker-for-mac/install/), [Docker-compose](https://docs.docker.com/compose/install/#install-compose) and [Docker-sync](https://github.com/EugenMayer/docker-sync/wiki/docker-sync-on-OSX).
 
-Use this [official Docker tutorial](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/).
+**Windows:**
+
+Install [Docker](https://docs.docker.com/docker-for-windows/install/), [Docker-compose](https://docs.docker.com/compose/install/#install-compose) and [Docker-sync](https://github.com/EugenMayer/docker-sync/wiki/docker-sync-on-Windows).
+
+**Linux:**
+
+Install [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/) and [Docker-compose](https://docs.docker.com/compose/install/#install-compose).
 
 ### How to use
 
@@ -37,11 +37,7 @@ If you want install the Magento, use like that:
 ```
 cd MYMAGENTO
 ./shell
-rm index.php
-install-magento
 ```
-
-You can specify the version that want install (e.g. `install-magento 1.9.3.4`).
 
 ### Panels
 
