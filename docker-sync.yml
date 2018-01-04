@@ -12,7 +12,9 @@ syncs:
     '.idea',
     '.git',
     'var/cache',
-    'var/sessions',
+    'var/locks',
+    'var/log',
+    'var/report',
     'var/session',
     'var/tmp'
     ]
@@ -20,7 +22,9 @@ syncs:
     '.idea',
     '.git',
     'var/cache',
-    'var/sessions',
+    'var/locks',
+    'var/log',
+    'var/report',
     'var/session',
     'var/tmp'
     ]
