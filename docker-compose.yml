@@ -8,12 +8,9 @@ services:
       - "9001:9000" # xdebug
       # - "35729:35729" # live reload
     volumes:
-      - ./src:/var/www/html
-      - ~/.composer:/var/www/.composer
-      - ~/.npm:/var/www/.npm
-      # - ~/.nvm:/var/www/.nvm
+      - <project_name>-sync:/var/www/html:nocopy
     environment:
-      XDEBUG_CONFIG: "remote_host=localhost"
+      XDEBUG_CONFIG: "remote_host=10.254.254.254"
       PHP_IDE_CONFIG: "serverName=Docker"
     depends_on:
       - db
@@ -46,7 +43,7 @@ services:
     ports:
      - 8080:80
     networks:
-      - <project_name>-network    
+      - <project_name>-network
 
   mailhog:
     image: mailhog/mailhog
@@ -61,5 +58,7 @@ networks:
     driver: bridge
 
 volumes:
+  <project_name>-sync:
+    external: true
   dbdata:
     driver: local
