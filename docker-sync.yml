@@ -1,0 +1,26 @@
+version: "2"
+options:
+  verbose: true
+syncs:
+  <project_name>-sync:
+    sync_userid: '1000'
+    sync_strategy: 'native_osx'
+    host_disk_mount_mode: 'cached'
+    src: './src'
+    # watch_args: '-v'
+    sync_excludes: [
+    '.idea',
+    '.git',
+    'var/cache',
+    'var/sessions',
+    'var/session',
+    'var/tmp'
+    ]
+    watch_excludes: [
+    '.idea',
+    '.git',
+    'var/cache',
+    'var/sessions',
+    'var/session',
+    'var/tmp'
+    ]
