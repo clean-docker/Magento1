@@ -13,7 +13,7 @@ services:
       - ~/.npm:/var/www/.npm
       # - ~/.nvm:/var/www/.nvm
     environment:
-      XDEBUG_CONFIG: "remote_host=localhost"
+      XDEBUG_CONFIG: "remote_host=localhost remote_connect_back=1"
       PHP_IDE_CONFIG: "serverName=Docker"
     depends_on:
       - db
