@@ -5,7 +5,8 @@
 ### Apache 2 + PHP 5.5 + MariaDB + Magerun + OPCache
 
 [![Build Status](https://travis-ci.org/clean-docker/Magento1.svg?branch=master)](https://travis-ci.org/clean-docker/Magento1)
-[![Build Status](https://images.microbadger.com/badges/image/rafaelcgstz/php-apache.svg)](https://microbadger.com/images/rafaelcgstz/php-apache)
+[![Docker Build](https://img.shields.io/docker/build/rafaelcgstz/magento1.svg)](https://hub.docker.com/r/rafaelcgstz/magento1/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/rafaelcgstz/magento1.svg)](https://hub.docker.com/r/rafaelcgstz/magento1/)
 
 This cluster ready docker-compose infrastructure.
 
