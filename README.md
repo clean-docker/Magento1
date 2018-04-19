@@ -57,6 +57,7 @@ Enjoy your new panels!
 | `./init`  | If you didn't use the CURL setup command above, please use this command changing the name of the project.  | `./init MYMAGENTO` |
 | `./start`  | If you continuing not using the CURL you can start your container manually  | |
 | `./stop`  | Stop your project containers  | |
+| `./kill`  | Stop your project containers and remove named volumes  | |
 | `./shell`  | Access your container  | `./shell root` | |
 | `./magento`  | Use the power of the Magento CLI  | |
 | `./n98`  | Use the Magerun commands as you want | |
