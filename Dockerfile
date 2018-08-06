@@ -48,7 +48,7 @@ RUN chmod 777 -R /var/www \
   	&& chsh -s /bin/bash www-data\
   	&& a2enmod rewrite \
 	&& a2enmod headers \
-    && php5enmod opcache \
+# 	&& php5enmod opcache \
 	&& sed -i -e 's/\/var\/www\/html/\/var\/www\/htdocs/' /etc/apache2/apache2.conf
 
 # Install oAuth
