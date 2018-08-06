@@ -6,20 +6,22 @@ ENV XDEBUG_PORT 9000
 
 RUN apt-get update \
     && apt-get install -y php5-dev \
-    php-pear \
-    libpng12-dev \
+    php5.6-pear \
+#     libpng12-dev \
     libmcrypt-dev \
     libmcrypt4 \
     libcurl3-dev \
     libfreetype6 \
     libjpeg62-turbo \
-    libpng12-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     apt-utils \
-    php5-gd \
-    php5-mysql \
-    mysql-client-5.5 \
+    php5.6-gd \
+    php5.6-mysql \
+    mariadb-server-core-10.1 \
+    mariadb-server-10.1 \
+    mariadb-client-10.1
+#     mysql-client-5.5 \
     libxml2-dev \
     git \
     wget \
