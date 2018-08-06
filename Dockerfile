@@ -5,7 +5,8 @@ MAINTAINER Rafael Corrêa Gomes <rafaelcgstz@gmail.com>
 ENV XDEBUG_PORT 9000
 
 RUN apt-get update \
-    && apt-get install -y php5-dev \
+    && apt-get install -y \
+#     php5-dev \
 #     php5.6-pear \
 #     libpng12-dev \
     libmcrypt-dev \
@@ -31,7 +32,7 @@ RUN apt-get update \
     make \
     autoconf \
     libc-dev \
-    pkg-config -y
+    pkg-config
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install pdo \
