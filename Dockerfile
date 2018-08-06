@@ -17,7 +17,7 @@ RUN apt-get update \
     libjpeg62-turbo-dev \
     apt-utils \
 #     php-gd \
-    php-mysql \
+#     php-mysql \
     mariadb-server-core-10.1 \
     mariadb-server-10.1 \
     mariadb-client-10.1 \
