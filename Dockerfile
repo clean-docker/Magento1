@@ -20,7 +20,7 @@ RUN apt-get update \
     php5.6-mysql \
     mariadb-server-core-10.1 \
     mariadb-server-10.1 \
-    mariadb-client-10.1
+    mariadb-client-10.1 \
 #     mysql-client-5.5 \
     libxml2-dev \
     git \
@@ -31,8 +31,7 @@ RUN apt-get update \
     make \
     autoconf \
     libc-dev \
-    pkg-config \
-	php-pear -y
+    pkg-config -y
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install pdo \
